@@ -17,15 +17,49 @@ A behavior used to add application wrapping capabilities on a custom element.
 @homepage http://expandjs.com/elements/xp-shell-behavior
 @repository https://github.com/ExpandJS/xp-shell-behavior
 
+@behavior xp-shared-behavior /bower_components/xp-shared-behavior/xp-shared-behavior.html
+
 @dependency polymer Polymer/polymer#^1.2.0
 @dependency expandjs ExpandJS/expandjs#0.10.0
+@dependency xp-shared-behavior ExpandJS/xp-shared-behavior#0.10.0
 -->
 
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../expandjs/expandjs.html">
+<link rel="import" href="../xp-shared-behavior/xp-shared-behavior.html">
 
 <script>
-    Polymer.XPShellBehavior = {
+    Polymer.XPShellBehaviorImp = {
+
+        // PROPERTIES
+        properties: {
+
+            /**
+             * The current locale's language.
+             *
+             * @attribute language
+             * @type string
+             * @default navigator.language
+             * @notifies
+             */
+            language: {
+                notify: true,
+                observer: '_languageObserver',
+                type: String,
+                value: navigator.language
+            }
+        },
+
+        /*********************************************************************/
+
+        // OBSERVER
+        _languageObserver: function () {
+
+            // Sharing
+            this.share('language', this.language || null);
+        },
+
+        /*********************************************************************/
 
         // LISTENER
         created: function () {
@@ -34,4 +68,9 @@ A behavior used to add application wrapping capabilities on a custom element.
             this.classList.add('shell');
         }
     };
+
+    Polymer.XPShellBehavior = [
+        Polymer.XPSharedBehavior,
+        Polymer.XPShellBehaviorImp
+    ];
 </script>
