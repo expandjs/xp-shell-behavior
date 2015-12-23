@@ -39,14 +39,13 @@ A behavior used to add application wrapping capabilities on a custom element.
              *
              * @attribute language
              * @type string
-             * @default navigator.language
              * @notifies
              */
             language: {
                 notify: true,
                 observer: '_languageObserver',
                 type: String,
-                value: navigator.language
+                value: navigator.language.slice(0, 2)
             }
         },
 
